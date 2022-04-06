@@ -215,7 +215,7 @@ class CommandDispatcher
         if (isset($envVars['TYPO3_CONSOLE_PLUGIN_RUN'])) {
             // During a composer run, we have symfony/console 2.8 unfortunately,
             // thus we must handle convert the arguments to a string.
-            $process = new Process(
+            $process = Process::fromShellCommandline(
                 implode(' ', array_map(ProcessExecutor::class . '::escape', $commandLine)),
                 null,
                 array_replace($this->getDefaultEnv(), $envVars),
@@ -223,7 +223,7 @@ class CommandDispatcher
                 0
             );
         } else {
-            $process = new Process($commandLine, null, $envVars, $input, 0);
+            $process = Process::fromShellCommandline($commandLine, null, $envVars, $input, 0);
         }
 
         return $process;
